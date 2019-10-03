@@ -1,10 +1,11 @@
-package com.mrebollob.chaoticplayground
+package com.mrebollob.chaoticplayground.presentation
 
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import com.mrebollob.chaoticplayground.R
 
 import kotlinx.android.synthetic.main.activity_main.*
 
