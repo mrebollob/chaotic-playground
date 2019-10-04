@@ -57,10 +57,9 @@ class ComicViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun render(comic: MarvelComic) {
 
-        if (comic.printPrice > 0) {
-            priceTextView.text =
-                itemView.context.getString(R.string.comic_price_format, comic.printPrice)
-        }
+        priceTextView.text =
+            itemView.context.getString(R.string.comic_price_format, comic.printPrice)
+
         thumbnailImageView.load(comic.thumbnail) {
             crossfade(true)
             placeholder(ColorDrawable(ContextCompat.getColor(itemView.context, R.color.black_20a)))

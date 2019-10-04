@@ -19,8 +19,9 @@ import com.mrebollob.chaoticplayground.data.model.MarvelApiCollection
 import com.mrebollob.chaoticplayground.data.model.MarvelApiComic
 import com.mrebollob.chaoticplayground.data.model.MarvelResponse
 import retrofit2.http.GET
+import retrofit2.http.QueryMap
 
 interface MarvelService {
     @GET("/v1/public/comics")
-    suspend fun getComics(): MarvelResponse<MarvelApiCollection<MarvelApiComic>>
+    suspend fun getComics(@QueryMap query: Map<String, String>): MarvelResponse<MarvelApiCollection<MarvelApiComic>>
 }

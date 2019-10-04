@@ -31,7 +31,12 @@ class MarvelRepositoryImp(private val marvelService: MarvelService) :
 
     override suspend fun getComics(): Either<PlayGroundException, List<MarvelComic>> {
         return try {
-            val comics = marvelService.getComics()
+
+            val query = mapOf(
+                Pair("limit", "50"),
+                Pair("format", "Trade Paperback")
+            )
+            val comics = marvelService.getComics(query)
             if (comics.response != null) {
                 Either.Right(comics.response.results.map { it.toMarvelComic() })
             } else {
