@@ -13,15 +13,12 @@
  *   limitations under the License.
  */
 
-package com.mrebollob.chaoticplayground.di.builder
+package com.mrebollob.chaoticplayground.presentation.main.flats
 
-import com.mrebollob.chaoticplayground.presentation.main.MainActivity
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
+import com.mrebollob.chaoticplayground.domain.entity.MarvelComic
+import com.mrebollob.chaoticplayground.presentation.platform.LoadingState
 
-@Module
-abstract class ActivityBuilder {
-
-    @ContributesAndroidInjector(modules = [FragmentBuildersModule::class])
-    abstract fun contributeMainActivity(): MainActivity
-}
+data class MainScreenState(
+    val comics: List<MarvelComic> = emptyList(),
+    val comicsState: LoadingState = LoadingState.Loading
+)

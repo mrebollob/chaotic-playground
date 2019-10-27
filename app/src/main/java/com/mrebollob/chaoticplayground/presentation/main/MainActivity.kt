@@ -16,81 +16,45 @@
 package com.mrebollob.chaoticplayground.presentation.main
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
-import com.google.android.material.snackbar.Snackbar
+import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.mrebollob.chaoticplayground.R
-import com.mrebollob.chaoticplayground.domain.extension.observe
-import com.mrebollob.chaoticplayground.domain.extension.toast
-import com.mrebollob.chaoticplayground.domain.extension.viewModel
 import com.mrebollob.chaoticplayground.presentation.platform.BaseActivity
-import com.mrebollob.chaoticplayground.presentation.platform.LoadingState
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.content_main.*
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.toolbar.*
+import javax.inject.Inject
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity(), HasSupportFragmentInjector {
 
-    private lateinit var mainViewModel: MainViewModel
-    private val comicsAdapter = ComicsAdapter()
+    @Inject
+    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
 
     override fun layoutId() = R.layout.activity_main
+    override fun supportFragmentInjector(): AndroidInjector<Fragment> = dispatchingAndroidInjector
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        mainViewModel = viewModel(viewModelFactory) {
-            observe(screenState, ::handleScreenState)
-        }
-
         initUI()
     }
 
     private fun initUI() {
         initToolbar()
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
-        comicsListView.adapter = comicsAdapter
+        val navView: BottomNavigationView = findViewById(R.id.nav_view)
+
+        val navController = findNavController(R.id.nav_host_fragment)
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(R.id.navigation_home)
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        navView.setupWithNavController(navController)
     }
 
     private fun initToolbar() {
         setSupportActionBar(toolbar)
-    }
-
-    private fun handleScreenState(screenState: MainScreenState?) {
-        screenState ?: return
-        when (screenState.comicsState) {
-            LoadingState.Ready -> renderReadyState(screenState)
-            LoadingState.Loading -> renderLoadingState()
-            LoadingState.Error -> renderErrorState()
-        }
-    }
-
-    private fun renderReadyState(screenState: MainScreenState) {
-        comicsAdapter.comics = screenState.comics
-    }
-
-    private fun renderLoadingState() {
-        toast("Loading")
-    }
-
-    private fun renderErrorState() {
-        toast("Error")
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_sort -> {
-                mainViewModel.onSortClick()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
     }
 }

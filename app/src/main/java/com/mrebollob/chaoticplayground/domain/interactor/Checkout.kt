@@ -13,12 +13,26 @@
  *   limitations under the License.
  */
 
-package com.mrebollob.chaoticplayground.presentation.main
+package com.mrebollob.chaoticplayground.domain.interactor
 
-import com.mrebollob.chaoticplayground.domain.entity.MarvelComic
-import com.mrebollob.chaoticplayground.presentation.platform.LoadingState
+import javax.inject.Inject
+import javax.inject.Singleton
 
-data class MainScreenState(
-    val comics: List<MarvelComic> = emptyList(),
-    val comicsState: LoadingState = LoadingState.Loading
-)
+// From: http://codekata.com/kata/kata09-back-to-the-checkout/
+
+@Singleton
+class Checkout @Inject constructor() {
+
+    /**
+     * Scan an individual item.
+     */
+    fun scan(item: Char) {}
+
+    /**
+     * Calculate the total price of all the items scanned.
+     */
+    fun total(): Int {
+
+        return 0
+    }
+}

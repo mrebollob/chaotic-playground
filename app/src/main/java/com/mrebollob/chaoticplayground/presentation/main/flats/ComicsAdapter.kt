@@ -13,7 +13,7 @@
  *   limitations under the License.
  */
 
-package com.mrebollob.chaoticplayground.presentation.main
+package com.mrebollob.chaoticplayground.presentation.main.flats
 
 import android.graphics.drawable.ColorDrawable
 import android.view.View

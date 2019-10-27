@@ -13,12 +13,15 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
 -->
-<resources>
-    <string name="app_name">Chaotic playground</string>
-    <string name="action_sort">Sort</string>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
 
-    <string name="comic_price_format">$%.2f</string>
-    <string name="title_activity_checkout">CheckoutActivity</string>
-
-    <string name="title_home">Home</string>
-</resources>
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.mrebollob.chaoticplayground.presentation.main.flats.FlatsFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/flats_fragment" />
+</navigation>

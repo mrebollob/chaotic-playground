@@ -13,7 +13,7 @@
  *   limitations under the License.
  */
 
-package com.mrebollob.chaoticplayground.presentation.main
+package com.mrebollob.chaoticplayground.presentation.main.flats
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -29,7 +29,7 @@ import com.mrebollob.chaoticplayground.presentation.platform.LoadingState
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class MainViewModel @Inject constructor(
+class FlatsViewModel @Inject constructor(
     private val repositoryImp: MarvelRepositoryImp,
     private val sortComicsByPriceUseCase: SortComicsByPriceUseCase
 ) : ViewModel() {
@@ -42,7 +42,8 @@ class MainViewModel @Inject constructor(
     private var sortType = SortType.UNKNOWN
 
     init {
-        _screenState.value = MainScreenState()
+        _screenState.value =
+            MainScreenState()
 
         viewModelScope.launch {
             repositoryImp.getComics().either(::handleError, ::handleComics)

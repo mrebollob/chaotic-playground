@@ -13,12 +13,10 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
 -->
-<resources>
-    <string name="app_name">Chaotic playground</string>
-    <string name="action_sort">Sort</string>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <string name="comic_price_format">$%.2f</string>
-    <string name="title_activity_checkout">CheckoutActivity</string>
-
-    <string name="title_home">Home</string>
-</resources>
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_home"
+        android:title="@string/title_home" />
+</menu>

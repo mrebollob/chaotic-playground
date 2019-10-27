@@ -19,7 +19,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.mrebollob.chaoticplayground.di.PlaygroundViewModelFactory
 import com.mrebollob.chaoticplayground.di.annotation.ViewModelKey
-import com.mrebollob.chaoticplayground.presentation.main.MainViewModel
+import com.mrebollob.chaoticplayground.presentation.main.flats.FlatsViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -29,9 +29,10 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(MainViewModel::class)
-    abstract fun bindMainViewModel(mainViewModel: MainViewModel): ViewModel
+    @ViewModelKey(FlatsViewModel::class)
+    abstract fun bindFlatsViewModel(flatsViewModel: FlatsViewModel): ViewModel
 
     @Binds
-    abstract fun bindViewModelFactory(factory: PlaygroundViewModelFactory): ViewModelProvider.Factory
+    abstract fun bindViewModelFactory(factory: PlaygroundViewModelFactory):
+            ViewModelProvider.Factory
 }
