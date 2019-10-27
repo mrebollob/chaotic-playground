@@ -18,14 +18,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mrebollob.chaoticplayground.data.MarvelRepositoryImp
-import com.mrebollob.chaoticplayground.domain.entity.MarvelComic
+import com.mrebollob.chaoticplayground.data.auth.SessionManager
+import com.mrebollob.chaoticplayground.domain.entity.User
 import com.mrebollob.chaoticplayground.domain.exception.PlayGroundException
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 class ProfileViewModel @Inject constructor(
-    private val repositoryImp: MarvelRepositoryImp
+    private val sessionManager: SessionManager
 ) : ViewModel() {
 
     private val _screenState = MutableLiveData<ProfileScreenState>()
@@ -35,17 +36,24 @@ class ProfileViewModel @Inject constructor(
 
     init {
         _screenState.value = ProfileScreenState.Loading
-
         viewModelScope.launch {
-            repositoryImp.getComics().either(::handleError, ::handleComics)
+            sessionManager.getUser().either(::handleError, ::handleComics)
         }
     }
 
-    private fun handleComics(comics: List<MarvelComic>) {
-
+    private fun handleComics(user: User) {
+        Timber.d("User: $user")
+        _screenState.value = ProfileScreenState.Ready(user)
     }
 
     private fun handleError(exception: PlayGroundException) {
+        _screenState.value = ProfileScreenState.Error
+    }
 
+    fun onSignOutClick() {
+        viewModelScope.launch {
+            sessionManager.signOut()
+            sessionManager.getUser().either(::handleError, ::handleComics)
+        }
     }
 }

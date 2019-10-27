@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "662919692570",
+    "firebase_url": "https://chaotic-playground.firebaseio.com",
+    "project_id": "chaotic-playground",
+    "storage_bucket": "chaotic-playground.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:662919692570:android:d7f19efad744e23274aca3",
+        "android_client_info": {
+          "package_name": "com.mrebollob.chaoticplayground.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "662919692570-37djrmvvi0flqnss52a5ierov3ltfa9o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoO6fm4Gl5OTiI_4CcD-Mc523N-i4phQI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "662919692570-37djrmvvi0flqnss52a5ierov3ltfa9o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

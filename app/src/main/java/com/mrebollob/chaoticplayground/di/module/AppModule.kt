@@ -15,6 +15,7 @@
 
 package com.mrebollob.chaoticplayground.di.module
 
+import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import com.mrebollob.chaoticplayground.data.auth.TimeProvider
 import dagger.Module
@@ -32,4 +33,9 @@ class AppModule {
     @Singleton
     fun provideTimeProvider(): TimeProvider =
         TimeProvider()
+
+    @Provides
+    @Singleton
+    fun provideFirebaseAuth(): FirebaseAuth =
+        FirebaseAuth.getInstance()
 }

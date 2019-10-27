@@ -18,10 +18,9 @@ import android.os.Bundle
 import android.view.View
 import com.mrebollob.chaoticplayground.R
 import com.mrebollob.chaoticplayground.domain.extension.observe
-import com.mrebollob.chaoticplayground.domain.extension.toast
 import com.mrebollob.chaoticplayground.domain.extension.viewModel
-import com.mrebollob.chaoticplayground.presentation.main.flats.MainScreenState
 import com.mrebollob.chaoticplayground.presentation.platform.BaseFragment
+import kotlinx.android.synthetic.main.profile_fragment.*
 
 class ProfileFragment : BaseFragment() {
 
@@ -38,23 +37,23 @@ class ProfileFragment : BaseFragment() {
 
     private fun initUI() {
         activity?.setTitle(R.string.app_name)
+        signOutButton.setOnClickListener {
+            profileViewModel.onSignOutClick()
+        }
     }
 
     private fun handleScreenState(screenState: ProfileScreenState?) {
         screenState ?: return
-
-    }
-
-    private fun renderReadyState(screenState: MainScreenState) {
-
-    }
-
-    private fun renderLoadingState() {
-        context?.toast("Loading")
-    }
-
-    private fun renderErrorState() {
-        context?.toast("Error")
+        when (screenState) {
+            is ProfileScreenState.Error -> {
+            }
+            is ProfileScreenState.Loading -> {
+            }
+            is ProfileScreenState.Ready -> {
+                idTextView.text = screenState.user.id
+                nameTextView.text = screenState.user.name
+            }
+        }
     }
 
     companion object {

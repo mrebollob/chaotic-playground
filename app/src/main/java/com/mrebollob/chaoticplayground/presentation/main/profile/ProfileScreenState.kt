@@ -14,8 +14,10 @@
  */
 package com.mrebollob.chaoticplayground.presentation.main.profile
 
+import com.mrebollob.chaoticplayground.domain.entity.User
+
 sealed class ProfileScreenState {
     object Error : ProfileScreenState()
     object Loading : ProfileScreenState()
-    data class Data(val someData: String) : ProfileScreenState()
+    data class Ready(val user: User) : ProfileScreenState()
 }
