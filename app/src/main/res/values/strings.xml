@@ -21,4 +21,5 @@
     <string name="title_activity_checkout">CheckoutActivity</string>
 
     <string name="title_home">Home</string>
+    <string name="title_profile">Profile</string>
 </resources>

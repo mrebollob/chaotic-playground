@@ -12,21 +12,21 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-
 package com.mrebollob.chaoticplayground.presentation.main
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.mrebollob.chaoticplayground.R
+import com.mrebollob.chaoticplayground.domain.extension.navigate
+import com.mrebollob.chaoticplayground.presentation.main.flats.FlatsFragment
+import com.mrebollob.chaoticplayground.presentation.main.profile.ProfileFragment
 import com.mrebollob.chaoticplayground.presentation.platform.BaseActivity
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
 
@@ -44,17 +44,35 @@ class MainActivity : BaseActivity(), HasSupportFragmentInjector {
 
     private fun initUI() {
         initToolbar()
-        val navView: BottomNavigationView = findViewById(R.id.nav_view)
-
-        val navController = findNavController(R.id.nav_host_fragment)
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.navigation_home)
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
+        initNavigation()
+        navigate(FlatsFragment.newInstance())
     }
 
     private fun initToolbar() {
         setSupportActionBar(toolbar)
+    }
+
+    private fun initNavigation() {
+        navigationView.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_home -> {
+                    navigate(FlatsFragment.newInstance())
+                    true
+                }
+                R.id.navigation_profile -> {
+                    navigate(ProfileFragment.newInstance())
+                    true
+                }
+                else -> false
+            }
+        }
+    }
+
+    companion object Navigator {
+
+        fun open(context: Context) {
+            val intent = Intent(context, MainActivity::class.java)
+            context.startActivity(intent)
+        }
     }
 }
