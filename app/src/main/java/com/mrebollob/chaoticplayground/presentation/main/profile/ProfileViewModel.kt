@@ -18,7 +18,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mrebollob.chaoticplayground.data.FirestoreRepository
 import com.mrebollob.chaoticplayground.data.auth.SessionManager
+import com.mrebollob.chaoticplayground.domain.entity.House
 import com.mrebollob.chaoticplayground.domain.entity.User
 import com.mrebollob.chaoticplayground.domain.exception.PlayGroundException
 import kotlinx.coroutines.launch
@@ -26,7 +28,8 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class ProfileViewModel @Inject constructor(
-    private val sessionManager: SessionManager
+    private val sessionManager: SessionManager,
+    private val repository: FirestoreRepository
 ) : ViewModel() {
 
     private val _screenState = MutableLiveData<ProfileScreenState>()
@@ -52,8 +55,18 @@ class ProfileViewModel @Inject constructor(
 
     fun onSignOutClick() {
         viewModelScope.launch {
+            repository.clearData()
             sessionManager.signOut()
             sessionManager.getUser().either(::handleError, ::handleComics)
+        }
+    }
+
+    fun addData() {
+        viewModelScope.launch {
+            val house = House(
+                name = "hola ${System.currentTimeMillis()}"
+            )
+            repository.addData(house)
         }
     }
 }
