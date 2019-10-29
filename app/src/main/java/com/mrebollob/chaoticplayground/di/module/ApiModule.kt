@@ -15,14 +15,22 @@
 
 package com.mrebollob.chaoticplayground.di.module
 
+import com.google.firebase.firestore.FirebaseFirestore
 import com.mrebollob.chaoticplayground.BuildConfig
+import com.mrebollob.chaoticplayground.data.FirestoreRepository
 import com.mrebollob.chaoticplayground.data.MarvelRepositoryImp
 import com.mrebollob.chaoticplayground.data.MarvelService
-import com.mrebollob.chaoticplayground.data.auth.TimeProvider
+import com.mrebollob.chaoticplayground.data.WebScraperImp
 import com.mrebollob.chaoticplayground.data.auth.AuthInterceptor
+import com.mrebollob.chaoticplayground.data.auth.SessionManager
+import com.mrebollob.chaoticplayground.data.auth.TimeProvider
 import com.mrebollob.chaoticplayground.di.annotation.BaseUrl
 import com.mrebollob.chaoticplayground.di.annotation.MarvelPrivateKey
 import com.mrebollob.chaoticplayground.di.annotation.MarvelPublicKey
+import com.mrebollob.chaoticplayground.domain.repository.HouseGateway
+import com.mrebollob.chaoticplayground.domain.repository.HouseRepository
+import com.mrebollob.chaoticplayground.domain.repository.MarvelRepository
+import com.mrebollob.chaoticplayground.domain.repository.WebScraper
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -37,7 +45,23 @@ class ApiModule {
 
     @Provides
     @Singleton
-    fun provideMarvelRepository(marvelService: MarvelService): MarvelRepositoryImp =
+    fun provideHouseRepository(
+        houseGateway: HouseGateway, webScraper: WebScraper
+    ): HouseRepository = HouseRepository(houseGateway, webScraper)
+
+    @Provides
+    @Singleton
+    fun provideHouseGateway(
+        sessionManager: SessionManager, db: FirebaseFirestore
+    ): HouseGateway = FirestoreRepository(sessionManager, db)
+
+    @Provides
+    @Singleton
+    fun provideWebScraper(): WebScraper = WebScraperImp()
+
+    @Provides
+    @Singleton
+    fun provideMarvelRepository(marvelService: MarvelService): MarvelRepository =
         MarvelRepositoryImp(marvelService)
 
     @Provides

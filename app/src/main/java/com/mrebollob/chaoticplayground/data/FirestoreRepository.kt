@@ -23,38 +23,37 @@ import com.mrebollob.chaoticplayground.domain.entity.House
 import com.mrebollob.chaoticplayground.domain.exception.PlayGroundException
 import com.mrebollob.chaoticplayground.domain.functional.Either
 import com.mrebollob.chaoticplayground.domain.functional.flatMap
+import com.mrebollob.chaoticplayground.domain.repository.HouseGateway
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import timber.log.Timber
-import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
-
 
 private const val HOUSES_DB_KEY = "houses"
 internal const val USER_ID_FIELD = "userId"
 
-class FirestoreRepository @Inject constructor(
+class FirestoreRepository(
     private val sessionManager: SessionManager,
     private val db: FirebaseFirestore
-) {
+) : HouseGateway {
 
-    suspend fun addData(house: House): Either<PlayGroundException, Unit> {
+    override suspend fun addHouse(house: House): Either<PlayGroundException, Unit> {
         return withContext(Dispatchers.IO) {
             sessionManager.getUser()
                 .flatMap { user -> runBlocking { createOrUpdateHouse(user.id, house) } }
         }
     }
 
-    suspend fun getHouses(): Either<PlayGroundException, List<House>> {
+    override suspend fun getHouses(): Either<PlayGroundException, List<House>> {
         return withContext(Dispatchers.IO) {
             sessionManager.getUser()
                 .flatMap { user -> runBlocking { getHouses(user.id) } }
         }
     }
 
-    suspend fun clearData() {
+    override suspend fun clearData() {
         sessionManager.getUser().either({
             Timber.w("Error getting user")
         }, {

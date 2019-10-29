@@ -12,20 +12,12 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
+package com.mrebollob.chaoticplayground.presentation.form
 
-package com.mrebollob.chaoticplayground.di.builder
+import com.mrebollob.chaoticplayground.domain.entity.House
+import com.mrebollob.chaoticplayground.presentation.platform.LoadingState
 
-import com.mrebollob.chaoticplayground.presentation.form.FormActivity
-import com.mrebollob.chaoticplayground.presentation.main.MainActivity
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
-
-@Module
-abstract class ActivityBuilder {
-
-    @ContributesAndroidInjector(modules = [FragmentBuildersModule::class])
-    abstract fun contributeMainActivity(): MainActivity
-
-    @ContributesAndroidInjector
-    abstract fun contributeFormActivity(): FormActivity
-}
+data class FormScreenState(
+    val houses: List<House> = emptyList(),
+    val housesState: LoadingState = LoadingState.Loading
+)

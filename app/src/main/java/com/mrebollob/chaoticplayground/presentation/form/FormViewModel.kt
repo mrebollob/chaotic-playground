@@ -12,7 +12,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package com.mrebollob.chaoticplayground.presentation.main.houses
+package com.mrebollob.chaoticplayground.presentation.form
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -25,17 +25,17 @@ import com.mrebollob.chaoticplayground.presentation.platform.LoadingState
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class HousesViewModel @Inject constructor(
+class FormViewModel @Inject constructor(
     private val repository: HouseRepository
 ) : ViewModel() {
 
-    private val _screenState = MutableLiveData<HousesScreenState>()
-    val screenState: LiveData<HousesScreenState>
+    private val _screenState = MutableLiveData<FormScreenState>()
+    val screenState: LiveData<FormScreenState>
         get() = _screenState
 
 
     init {
-        _screenState.value = HousesScreenState()
+        _screenState.value = FormScreenState()
 
         viewModelScope.launch {
             repository.getHouses().either(::handleError, ::handleHouses)

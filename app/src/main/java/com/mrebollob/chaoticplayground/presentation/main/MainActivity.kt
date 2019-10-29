@@ -14,12 +14,11 @@
  */
 package com.mrebollob.chaoticplayground.presentation.main
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.mrebollob.chaoticplayground.R
 import com.mrebollob.chaoticplayground.domain.extension.navigate
+import com.mrebollob.chaoticplayground.presentation.form.FormActivity
 import com.mrebollob.chaoticplayground.presentation.main.houses.HousesFragment
 import com.mrebollob.chaoticplayground.presentation.main.profile.ProfileFragment
 import com.mrebollob.chaoticplayground.presentation.platform.BaseActivity
@@ -59,20 +58,16 @@ class MainActivity : BaseActivity(), HasSupportFragmentInjector {
                     navigate(HousesFragment.newInstance())
                     true
                 }
+                R.id.navigation_new -> {
+                    FormActivity.open(this)
+                    true
+                }
                 R.id.navigation_profile -> {
                     navigate(ProfileFragment.newInstance())
                     true
                 }
                 else -> false
             }
-        }
-    }
-
-    companion object Navigator {
-
-        fun open(context: Context) {
-            val intent = Intent(context, MainActivity::class.java)
-            context.startActivity(intent)
         }
     }
 }

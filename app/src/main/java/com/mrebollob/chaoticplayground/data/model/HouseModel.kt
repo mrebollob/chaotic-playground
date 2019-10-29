@@ -10,6 +10,7 @@ data class HouseModel(
     @SerializedName(USER_ID_FIELD)
     val userId: String? = null,
     val name: String? = null,
+    val imageUrl: String? = null,
     val rentPrice: Float? = null,
     val updated: Date? = null
 ) {
@@ -17,6 +18,7 @@ data class HouseModel(
         return House(
             id = id!!,
             name = name!!,
+            imageUrl = imageUrl!!,
             rentPrice = rentPrice!!,
             updated = updated!!
         )
