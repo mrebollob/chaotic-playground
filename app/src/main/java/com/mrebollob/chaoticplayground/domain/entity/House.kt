@@ -3,8 +3,10 @@ package com.mrebollob.chaoticplayground.domain.entity
 import java.util.*
 
 data class House(
+    val id: String = generateId(),
     val name: String,
-    val id: String = generateId()
+    val rentPrice: Float,
+    val updated: Date = Date()
 )
 
 private fun generateId(): String =

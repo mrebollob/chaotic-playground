@@ -10,13 +10,15 @@ data class HouseModel(
     @SerializedName(USER_ID_FIELD)
     val userId: String? = null,
     val name: String? = null,
-    val created: Date? = null
+    val rentPrice: Float? = null,
+    val updated: Date? = null
 ) {
-
     fun toHouse(): House {
         return House(
-            id = id ?: "",
-            name = name ?: ""
+            id = id!!,
+            name = name!!,
+            rentPrice = rentPrice!!,
+            updated = updated!!
         )
     }
 }
@@ -26,5 +28,6 @@ fun House.toHouseModel(userId: String) =
         id = id,
         userId = userId,
         name = name,
-        created = Date()
+        rentPrice = rentPrice,
+        updated = Date()
     )

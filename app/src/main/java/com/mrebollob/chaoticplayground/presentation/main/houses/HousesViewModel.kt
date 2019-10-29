@@ -12,62 +12,46 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package com.mrebollob.chaoticplayground.presentation.main.profile
+package com.mrebollob.chaoticplayground.presentation.main.houses
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mrebollob.chaoticplayground.data.FirestoreRepository
-import com.mrebollob.chaoticplayground.data.auth.SessionManager
 import com.mrebollob.chaoticplayground.domain.entity.House
-import com.mrebollob.chaoticplayground.domain.entity.User
 import com.mrebollob.chaoticplayground.domain.exception.PlayGroundException
+import com.mrebollob.chaoticplayground.presentation.platform.LoadingState
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
-class ProfileViewModel @Inject constructor(
-    private val sessionManager: SessionManager,
+class HousesViewModel @Inject constructor(
     private val repository: FirestoreRepository
 ) : ViewModel() {
 
-    private val _screenState = MutableLiveData<ProfileScreenState>()
-    val screenState: LiveData<ProfileScreenState>
+    private val _screenState = MutableLiveData<HousesScreenState>()
+    val screenState: LiveData<HousesScreenState>
         get() = _screenState
 
 
     init {
-        _screenState.value = ProfileScreenState.Loading
+        _screenState.value = HousesScreenState()
+
         viewModelScope.launch {
-            sessionManager.getUser().either(::handleError, ::handleComics)
+            repository.getHouses().either(::handleError, ::handleHouses)
         }
     }
 
-    private fun handleComics(user: User) {
-        Timber.d("User: $user")
-        _screenState.value = ProfileScreenState.Ready(user)
+    private fun handleHouses(houses: List<House>) {
+        _screenState.value = _screenState.value?.copy(
+            houses = houses,
+            housesState = LoadingState.Ready
+        )
     }
 
     private fun handleError(exception: PlayGroundException) {
-        _screenState.value = ProfileScreenState.Error
-    }
-
-    fun onSignOutClick() {
-        viewModelScope.launch {
-            repository.clearData()
-            sessionManager.signOut()
-            sessionManager.getUser().either(::handleError, ::handleComics)
-        }
-    }
-
-    fun addData() {
-        viewModelScope.launch {
-            val house = House(
-                name = "hola ${System.currentTimeMillis()}",
-                rentPrice = 12.toFloat()
-            )
-            repository.addData(house)
-        }
+        _screenState.value = _screenState.value?.copy(
+            housesState = LoadingState.Error
+        )
     }
 }

@@ -12,37 +12,33 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
+package com.mrebollob.chaoticplayground.presentation.main.houses
 
-package com.mrebollob.chaoticplayground.presentation.main.flats
-
-import android.graphics.drawable.ColorDrawable
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import coil.api.load
 import com.mrebollob.chaoticplayground.R
-import com.mrebollob.chaoticplayground.domain.entity.MarvelComic
+import com.mrebollob.chaoticplayground.domain.entity.House
 import com.mrebollob.chaoticplayground.domain.extension.inflate
 import kotlin.properties.Delegates
 
-class ComicsAdapter : RecyclerView.Adapter<ComicViewHolder>() {
+class HousesAdapter : RecyclerView.Adapter<HouseViewHolder>() {
 
-    var comics: List<MarvelComic> by Delegates.observable(emptyList()) { _, _, _ -> notifyDataSetChange() }
+    var houses: List<House> by Delegates.observable(emptyList()) { _, _, _ -> notifyDataSetChange() }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ComicViewHolder {
-        val view = parent.inflate(R.layout.comic_list_item)
-        return ComicViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HouseViewHolder {
+        val view = parent.inflate(R.layout.house_list_item)
+        return HouseViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ComicViewHolder, position: Int) {
-        holder.render(comics[position])
+    override fun onBindViewHolder(holder: HouseViewHolder, position: Int) {
+        holder.render(houses[position])
     }
 
     override fun getItemCount(): Int {
-        return comics.count()
+        return houses.count()
     }
 
     private fun notifyDataSetChange() {
@@ -50,19 +46,19 @@ class ComicsAdapter : RecyclerView.Adapter<ComicViewHolder>() {
     }
 }
 
-class ComicViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class HouseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     private val priceTextView by lazy { itemView.findViewById(R.id.priceTextView) as TextView }
     private val thumbnailImageView by lazy { itemView.findViewById(R.id.thumbnailImageView) as ImageView }
 
-    fun render(comic: MarvelComic) {
+    fun render(house: House) {
 
         priceTextView.text =
-            itemView.context.getString(R.string.comic_price_format, comic.printPrice)
+            itemView.context.getString(R.string.comic_price_format, house.rentPrice)
 
-        thumbnailImageView.load(comic.thumbnail) {
-            crossfade(true)
-            placeholder(ColorDrawable(ContextCompat.getColor(itemView.context, R.color.black_20a)))
-        }
+//        thumbnailImageView.load(comic.thumbnail) {
+//            crossfade(true)
+//            placeholder(ColorDrawable(ContextCompat.getColor(itemView.context, R.color.black_20a)))
+//        }
     }
 }

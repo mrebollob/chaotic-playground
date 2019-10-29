@@ -47,7 +47,7 @@ class FirestoreRepository @Inject constructor(
         }
     }
 
-    suspend fun readData(): Either<PlayGroundException, List<House>> {
+    suspend fun getHouses(): Either<PlayGroundException, List<House>> {
         return withContext(Dispatchers.IO) {
             sessionManager.getUser()
                 .flatMap { user -> runBlocking { getHouses(user.id) } }

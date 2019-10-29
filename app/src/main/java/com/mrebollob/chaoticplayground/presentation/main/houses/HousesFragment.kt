@@ -12,8 +12,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-
-package com.mrebollob.chaoticplayground.presentation.main.flats
+package com.mrebollob.chaoticplayground.presentation.main.houses
 
 import android.os.Bundle
 import android.view.View
@@ -25,11 +24,11 @@ import com.mrebollob.chaoticplayground.presentation.platform.BaseFragment
 import com.mrebollob.chaoticplayground.presentation.platform.LoadingState
 import kotlinx.android.synthetic.main.content_main.*
 
-class FlatsFragment : BaseFragment() {
+class HousesFragment : BaseFragment() {
 
-    private lateinit var flatsViewModel: FlatsViewModel
-    private val comicsAdapter = ComicsAdapter()
-    override fun layoutId(): Int = R.layout.flats_fragment
+    private lateinit var flatsViewModel: HousesViewModel
+    private val adapter = HousesAdapter()
+    override fun layoutId(): Int = R.layout.houses_fragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -41,20 +40,20 @@ class FlatsFragment : BaseFragment() {
 
     private fun initUI() {
         activity?.setTitle(R.string.app_name)
-        comicsListView.adapter = comicsAdapter
+        comicsListView.adapter = adapter
     }
 
-    private fun handleScreenState(screenState: MainScreenState?) {
+    private fun handleScreenState(screenState: HousesScreenState?) {
         screenState ?: return
-        when (screenState.comicsState) {
+        when (screenState.housesState) {
             LoadingState.Ready -> renderReadyState(screenState)
             LoadingState.Loading -> renderLoadingState()
             LoadingState.Error -> renderErrorState()
         }
     }
 
-    private fun renderReadyState(screenState: MainScreenState) {
-        comicsAdapter.comics = screenState.comics
+    private fun renderReadyState(screenState: HousesScreenState) {
+        adapter.houses = screenState.houses
     }
 
     private fun renderLoadingState() {
@@ -66,6 +65,6 @@ class FlatsFragment : BaseFragment() {
     }
 
     companion object {
-        fun newInstance() = FlatsFragment()
+        fun newInstance() = HousesFragment()
     }
 }

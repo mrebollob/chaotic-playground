@@ -12,13 +12,12 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
+package com.mrebollob.chaoticplayground.presentation.main.houses
 
-package com.mrebollob.chaoticplayground.presentation.main.flats
-
-import com.mrebollob.chaoticplayground.domain.entity.MarvelComic
+import com.mrebollob.chaoticplayground.domain.entity.House
 import com.mrebollob.chaoticplayground.presentation.platform.LoadingState
 
-data class MainScreenState(
-    val comics: List<MarvelComic> = emptyList(),
-    val comicsState: LoadingState = LoadingState.Loading
+data class HousesScreenState(
+    val houses: List<House> = emptyList(),
+    val housesState: LoadingState = LoadingState.Loading
 )

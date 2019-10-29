@@ -20,7 +20,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.mrebollob.chaoticplayground.R
 import com.mrebollob.chaoticplayground.domain.extension.navigate
-import com.mrebollob.chaoticplayground.presentation.main.flats.FlatsFragment
+import com.mrebollob.chaoticplayground.presentation.main.houses.HousesFragment
 import com.mrebollob.chaoticplayground.presentation.main.profile.ProfileFragment
 import com.mrebollob.chaoticplayground.presentation.platform.BaseActivity
 import dagger.android.AndroidInjector
@@ -45,7 +45,7 @@ class MainActivity : BaseActivity(), HasSupportFragmentInjector {
     private fun initUI() {
         initToolbar()
         initNavigation()
-        navigate(FlatsFragment.newInstance())
+        navigate(HousesFragment.newInstance())
     }
 
     private fun initToolbar() {
@@ -56,7 +56,7 @@ class MainActivity : BaseActivity(), HasSupportFragmentInjector {
         navigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_home -> {
-                    navigate(FlatsFragment.newInstance())
+                    navigate(HousesFragment.newInstance())
                     true
                 }
                 R.id.navigation_profile -> {
