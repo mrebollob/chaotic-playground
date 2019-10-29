@@ -14,11 +14,11 @@
  */
 package com.mrebollob.chaoticplayground.data
 
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.mrebollob.chaoticplayground.data.auth.SessionManager
-import com.mrebollob.chaoticplayground.data.model.UserDataModel
+import com.mrebollob.chaoticplayground.data.model.HouseModel
+import com.mrebollob.chaoticplayground.data.model.toHouseModel
 import com.mrebollob.chaoticplayground.domain.entity.House
 import com.mrebollob.chaoticplayground.domain.exception.PlayGroundException
 import com.mrebollob.chaoticplayground.domain.functional.Either
@@ -31,7 +31,9 @@ import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
+
 private const val HOUSES_DB_KEY = "houses"
+internal const val USER_ID_FIELD = "userId"
 
 class FirestoreRepository @Inject constructor(
     private val sessionManager: SessionManager,
@@ -41,16 +43,15 @@ class FirestoreRepository @Inject constructor(
     suspend fun addData(house: House): Either<PlayGroundException, Unit> {
         return withContext(Dispatchers.IO) {
             sessionManager.getUser()
-                .flatMap { user -> getReference(user.id) }
-                .flatMap { ref -> runBlocking { createOrUpdateHouse(ref, house) } }
+                .flatMap { user -> runBlocking { createOrUpdateHouse(user.id, house) } }
         }
     }
 
     suspend fun readData(): Either<PlayGroundException, List<House>> {
-
-        return sessionManager.getUser()
-            .flatMap { user -> getReference(user.id) }
-            .flatMap { ref -> runBlocking { getHouses(ref) } }
+        return withContext(Dispatchers.IO) {
+            sessionManager.getUser()
+                .flatMap { user -> runBlocking { getHouses(user.id) } }
+        }
     }
 
     suspend fun clearData() {
@@ -63,35 +64,30 @@ class FirestoreRepository @Inject constructor(
         })
     }
 
-    private suspend fun getHouses(
-        ref: DocumentReference
-    ): Either<PlayGroundException, List<House>> {
+    private suspend fun getHouses(userId: String): Either<PlayGroundException, List<House>> {
         return suspendCoroutine { continuation ->
-            ref.get().addOnSuccessListener { document ->
-                if (document != null) {
-                    val userDataModel = document.toObject(UserDataModel::class.java)
-                    val houses = userDataModel?.houses?.map { it.toHouse() } ?: emptyList()
+            db.collection(HOUSES_DB_KEY).whereEqualTo(USER_ID_FIELD, userId).get()
+                .addOnSuccessListener { documents ->
+                    val houses = mutableListOf<House>()
+                    for (document in documents) {
+                        houses.add(document.toObject(HouseModel::class.java).toHouse())
+                    }
                     continuation.resume(Either.Right(houses))
-                } else {
+
+                }.addOnFailureListener {
+                    Timber.e(it, "Read error ")
                     continuation.resume(Either.Left(PlayGroundException("Error")))
                 }
-            }.addOnFailureListener {
-                continuation.resume(Either.Left(PlayGroundException("Error")))
-            }
         }
     }
 
-    private fun getReference(userId: String): Either<PlayGroundException, DocumentReference> {
-        return Either.Right(db.collection(HOUSES_DB_KEY).document(userId))
-    }
-
     private suspend fun createOrUpdateHouse(
-        ref: DocumentReference,
+        userId: String,
         house: House
     ): Either<PlayGroundException, Unit> {
         return suspendCoroutine { continuation ->
-            val data = hashMapOf(house.id to house)
-            ref.set(data, SetOptions.merge())
+            db.collection(HOUSES_DB_KEY).document(house.id)
+                .set(house.toHouseModel(userId), SetOptions.merge())
                 .addOnSuccessListener { continuation.resume(Either.Right(Unit)) }
                 .addOnFailureListener {
                     Timber.e(it, "Create error ")

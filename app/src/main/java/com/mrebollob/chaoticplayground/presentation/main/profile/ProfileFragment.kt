@@ -43,6 +43,9 @@ class ProfileFragment : BaseFragment() {
         addButton.setOnClickListener {
             profileViewModel.addData()
         }
+        readButton.setOnClickListener {
+            profileViewModel.readData()
+        }
     }
 
     private fun handleScreenState(screenState: ProfileScreenState?) {

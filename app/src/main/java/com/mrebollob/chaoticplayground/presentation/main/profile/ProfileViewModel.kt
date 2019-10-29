@@ -69,4 +69,14 @@ class ProfileViewModel @Inject constructor(
             repository.addData(house)
         }
     }
+
+    fun readData() {
+        viewModelScope.launch {
+            repository.readData().either(::handleError) {
+                it.forEach {
+                    Timber.d("Data: $it")
+                }
+            }
+        }
+    }
 }

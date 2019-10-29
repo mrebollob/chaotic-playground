@@ -50,4 +50,11 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/spacing_normal"
         android:text="Add" />
+
+    <Button
+        android:id="@+id/readButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/spacing_normal"
+        android:text="Read" />
 </LinearLayout>
