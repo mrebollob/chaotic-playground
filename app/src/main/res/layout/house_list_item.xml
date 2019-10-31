@@ -15,6 +15,7 @@
 -->
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/levelCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -47,17 +48,40 @@
             android:layout_marginTop="@dimen/spacing_tiny"
             android:layout_marginEnd="@dimen/spacing_normal"
             android:textColor="@color/primary_text"
-            android:textSize="@dimen/font_larger" />
+            android:textSize="@dimen/font_larger"
+            tools:text="The best flat" />
 
         <TextView
             android:id="@+id/priceTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal"
-            android:layout_marginTop="@dimen/spacing_tiny"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:textColor="@color/primary_text"
+            android:textSize="@dimen/font_normal"
+            tools:text="400" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_normal"
             android:layout_marginEnd="@dimen/spacing_normal"
             android:layout_marginBottom="@dimen/spacing_normal"
-            android:textColor="@color/primary_text"
-            android:textSize="@dimen/font_normal" />
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:importantForAccessibility="no"
+                app:srcCompat="@drawable/ic_star" />
+
+            <TextView
+                android:id="@+id/requirementsTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/secondary_text"
+                android:textSize="@dimen/font_normal"
+                tools:text="3" />
+        </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

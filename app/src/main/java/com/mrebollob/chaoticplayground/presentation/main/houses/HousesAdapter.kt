@@ -53,6 +53,7 @@ class HouseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     private val titleTextView by lazy { itemView.findViewById(R.id.titleTextView) as TextView }
     private val priceTextView by lazy { itemView.findViewById(R.id.priceTextView) as TextView }
+    private val requirementsTextView by lazy { itemView.findViewById(R.id.requirementsTextView) as TextView }
     private val houseImageView by lazy { itemView.findViewById(R.id.houseImageView) as ImageView }
 
     fun render(house: House) {
@@ -60,6 +61,7 @@ class HouseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         titleTextView.text = house.title
         priceTextView.text =
             itemView.context.getString(R.string.comic_price_format, house.rentPrice)
+        requirementsTextView.text = house.requirements.size.toString()
 
         houseImageView.load(house.imageUrl) {
             crossfade(true)
