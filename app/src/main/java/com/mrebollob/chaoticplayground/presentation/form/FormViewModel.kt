@@ -33,25 +33,26 @@ class FormViewModel @Inject constructor(
     val screenState: LiveData<FormScreenState>
         get() = _screenState
 
-
     init {
         _screenState.value = FormScreenState()
+    }
 
+    fun addHouse(house: House) {
         viewModelScope.launch {
-            repository.getHouses().either(::handleError, ::handleHouses)
+            repository.addHouse(house).either(::handleError, ::handleResult)
         }
     }
 
-    private fun handleHouses(houses: List<House>) {
+    private fun handleResult(result: Unit) {
         _screenState.value = _screenState.value?.copy(
-            houses = houses,
-            housesState = LoadingState.Ready
+            created = true,
+            createHouseState = LoadingState.Ready
         )
     }
 
     private fun handleError(exception: PlayGroundException) {
         _screenState.value = _screenState.value?.copy(
-            housesState = LoadingState.Error
+            createHouseState = LoadingState.Error
         )
     }
 }

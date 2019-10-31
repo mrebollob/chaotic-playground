@@ -21,9 +21,10 @@ class WebScraperImp : WebScraper {
 
             Either.Right(
                 House(
-                    name = "",
+                    title = "",
                     imageUrl = "",
-                    rentPrice = 0.toFloat()
+                    rentPrice = 0.toFloat(),
+                    requirements = emptyList()
                 )
             )
 

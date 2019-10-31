@@ -1,13 +1,9 @@
 package com.mrebollob.chaoticplayground.domain.entity
 
 import com.mrebollob.chaoticplayground.domain.extension.generateId
-import java.util.*
 
-data class House(
+data class Requirement(
     val id: String = generateId(),
     val title: String,
-    val imageUrl: String,
-    val rentPrice: Float,
-    val requirements: List<Requirement>,
-    val updated: Date = Date()
+    val checked: Boolean = false
 )

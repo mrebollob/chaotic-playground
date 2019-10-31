@@ -14,10 +14,9 @@
  */
 package com.mrebollob.chaoticplayground.presentation.form
 
-import com.mrebollob.chaoticplayground.domain.entity.House
 import com.mrebollob.chaoticplayground.presentation.platform.LoadingState
 
 data class FormScreenState(
-    val houses: List<House> = emptyList(),
-    val housesState: LoadingState = LoadingState.Loading
+    val created: Boolean = false,
+    val createHouseState: LoadingState = LoadingState.Loading
 )

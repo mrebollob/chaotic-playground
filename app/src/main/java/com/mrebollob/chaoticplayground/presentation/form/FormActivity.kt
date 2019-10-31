@@ -14,14 +14,17 @@
  */
 package com.mrebollob.chaoticplayground.presentation.form
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import com.mrebollob.chaoticplayground.R
 import com.mrebollob.chaoticplayground.di.Injectable
+import com.mrebollob.chaoticplayground.domain.entity.House
 import com.mrebollob.chaoticplayground.domain.extension.observe
 import com.mrebollob.chaoticplayground.domain.extension.viewModel
 import com.mrebollob.chaoticplayground.presentation.platform.BaseActivity
+import kotlinx.android.synthetic.main.activity_form.*
 import kotlinx.android.synthetic.main.toolbar.*
 
 class FormActivity : BaseActivity(), Injectable {
@@ -38,6 +41,18 @@ class FormActivity : BaseActivity(), Injectable {
 
     private fun initUI() {
         initToolbar()
+
+        addButton.setOnClickListener {
+
+            val newHouse = House(
+                title = nameEditText.text.toString(),
+                imageUrl = "",
+                rentPrice = 0.toFloat(),
+                requirements = emptyList()
+            )
+
+            formViewModel.addHouse(newHouse)
+        }
     }
 
     private fun initToolbar() {
@@ -49,6 +64,12 @@ class FormActivity : BaseActivity(), Injectable {
 
     private fun handleScreenState(screenState: FormScreenState?) {
         screenState ?: return
+
+        if (screenState.created) {
+            val returnIntent = Intent()
+            setResult(Activity.RESULT_OK, returnIntent)
+            finish()
+        }
     }
 
     companion object Navigator {

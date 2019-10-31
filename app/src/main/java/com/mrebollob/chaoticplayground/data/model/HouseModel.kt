@@ -9,18 +9,20 @@ data class HouseModel(
     val id: String? = null,
     @SerializedName(USER_ID_FIELD)
     val userId: String? = null,
-    val name: String? = null,
+    val title: String? = null,
     val imageUrl: String? = null,
     val rentPrice: Float? = null,
+    val requirements: List<RequirementModel>? = null,
     val updated: Date? = null
 ) {
     fun toHouse(): House {
         return House(
-            id = id!!,
-            name = name!!,
-            imageUrl = imageUrl!!,
-            rentPrice = rentPrice!!,
-            updated = updated!!
+            id = id ?: "",
+            title = title ?: "",
+            imageUrl = imageUrl ?: "",
+            rentPrice = rentPrice ?: 0.toFloat(),
+            requirements = requirements?.map { it.toRequirement() } ?: emptyList(),
+            updated = updated ?: Date()
         )
     }
 }
@@ -29,7 +31,8 @@ fun House.toHouseModel(userId: String) =
     HouseModel(
         id = id,
         userId = userId,
-        name = name,
+        title = title,
         rentPrice = rentPrice,
+        requirements = requirements.map { it.toRequirementModel() },
         updated = Date()
     )

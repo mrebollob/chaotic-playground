@@ -40,12 +40,6 @@ class ProfileFragment : BaseFragment() {
         signOutButton.setOnClickListener {
             profileViewModel.onSignOutClick()
         }
-        addButton.setOnClickListener {
-            profileViewModel.addData()
-        }
-        readButton.setOnClickListener {
-            profileViewModel.addHouse()
-        }
     }
 
     private fun handleScreenState(screenState: ProfileScreenState?) {

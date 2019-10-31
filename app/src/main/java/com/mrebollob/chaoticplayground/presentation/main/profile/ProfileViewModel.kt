@@ -19,7 +19,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mrebollob.chaoticplayground.data.auth.SessionManager
-import com.mrebollob.chaoticplayground.domain.entity.House
 import com.mrebollob.chaoticplayground.domain.entity.User
 import com.mrebollob.chaoticplayground.domain.exception.PlayGroundException
 import com.mrebollob.chaoticplayground.domain.repository.HouseRepository
@@ -58,17 +57,6 @@ class ProfileViewModel @Inject constructor(
             repository.clearData()
             sessionManager.signOut()
             sessionManager.getUser().either(::handleError, ::handleComics)
-        }
-    }
-
-    fun addData() {
-        viewModelScope.launch {
-            val house = House(
-                name = "hola ${System.currentTimeMillis()}",
-                imageUrl = "",
-                rentPrice = 12.toFloat()
-            )
-            repository.addHouse(house)
         }
     }
 
