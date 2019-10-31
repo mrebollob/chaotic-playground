@@ -15,7 +15,7 @@ data class HouseModel(
     val title: String? = null,
     val imageUrl: String? = null,
     val rentPrice: Float? = null,
-    val requirements: List<RequirementModel>? = null,
+    val requirements: List<String>? = null,
     val updated: Date? = null
 ) {
     fun toHouse(): House {
@@ -24,7 +24,7 @@ data class HouseModel(
             title = title ?: "",
             imageUrl = imageUrl ?: TEST_IMG,
             rentPrice = rentPrice ?: 0.toFloat(),
-            requirements = requirements?.map { it.toRequirement() } ?: emptyList(),
+            requirements = requirements ?: emptyList(),
             updated = updated ?: Date()
         )
     }
@@ -36,6 +36,6 @@ fun House.toHouseModel(userId: String) =
         userId = userId,
         title = title,
         rentPrice = rentPrice,
-        requirements = requirements.map { it.toRequirementModel() },
+        requirements = requirements,
         updated = Date()
     )

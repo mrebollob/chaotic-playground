@@ -55,7 +55,7 @@ class FormActivity : BaseActivity(), Injectable {
                 title = titleEditText.text.toString(),
                 imageUrl = "",
                 rentPrice = priceEditText.text.toString().toFloat(),
-                requirements = emptyList()
+                requirements = adapter.getCheckedRequirements()
             )
 
             formViewModel.addHouse(newHouse)

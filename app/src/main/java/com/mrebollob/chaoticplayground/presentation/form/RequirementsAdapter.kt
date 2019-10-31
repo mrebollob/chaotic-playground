@@ -25,15 +25,21 @@ import kotlin.properties.Delegates
 
 class RequirementsAdapter : RecyclerView.Adapter<RequirementViewHolder>() {
 
-    var requirements: List<Requirement> by Delegates.observable(emptyList()) { _, _, _ -> notifyDataSetChange() }
+    var requirements: List<Requirement> by Delegates.observable(emptyList())
+    { _, _, _ -> notifyDataSetChange() }
+    private var checkedRequirements: MutableList<String> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RequirementViewHolder {
         val view = parent.inflate(R.layout.requirement_list_item)
-        return RequirementViewHolder(view)
+        return RequirementViewHolder(
+            itemView = view,
+            addRequirement = addRequirement,
+            removeRequirement = removeRequirement
+        )
     }
 
     override fun onBindViewHolder(holder: RequirementViewHolder, position: Int) {
-        holder.render(requirements[position])
+        holder.render(requirements[position], false)
     }
 
     override fun getItemCount(): Int {
@@ -43,14 +49,38 @@ class RequirementsAdapter : RecyclerView.Adapter<RequirementViewHolder>() {
     private fun notifyDataSetChange() {
         notifyDataSetChanged()
     }
+
+    private val addRequirement: (String) -> Unit = { requirementId ->
+        checkedRequirements.add(requirementId)
+    }
+
+    private val removeRequirement: (String) -> Unit = { requirementId ->
+        checkedRequirements.remove(requirementId)
+    }
+
+    fun getCheckedRequirements(): List<String> {
+        return checkedRequirements
+    }
 }
 
-class RequirementViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class RequirementViewHolder(
+    itemView: View,
+    val addRequirement: (String) -> Unit,
+    val removeRequirement: (String) -> Unit
+) : RecyclerView.ViewHolder(itemView) {
 
     private val titleCheckBox by lazy { itemView.findViewById(R.id.titleCheckBox) as CheckBox }
 
-    fun render(requirement: Requirement) {
+    fun render(requirement: Requirement, checked: Boolean) {
 
         titleCheckBox.text = requirement.title
+        titleCheckBox.isChecked = checked
+        titleCheckBox.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                addRequirement(requirement.id)
+            } else {
+                removeRequirement(requirement.id)
+            }
+        }
     }
 }

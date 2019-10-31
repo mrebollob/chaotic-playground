@@ -8,6 +8,6 @@ data class House(
     val title: String,
     val imageUrl: String,
     val rentPrice: Float,
-    val requirements: List<Requirement>,
+    val requirements: List<String>,
     val updated: Date = Date()
 )
