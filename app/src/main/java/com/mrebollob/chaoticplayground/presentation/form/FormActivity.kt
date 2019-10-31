@@ -18,18 +18,23 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
+import androidx.core.view.ViewCompat
 import com.mrebollob.chaoticplayground.R
 import com.mrebollob.chaoticplayground.di.Injectable
 import com.mrebollob.chaoticplayground.domain.entity.House
 import com.mrebollob.chaoticplayground.domain.extension.observe
+import com.mrebollob.chaoticplayground.domain.extension.toast
 import com.mrebollob.chaoticplayground.domain.extension.viewModel
 import com.mrebollob.chaoticplayground.presentation.platform.BaseActivity
+import com.mrebollob.chaoticplayground.presentation.platform.LoadingState
 import kotlinx.android.synthetic.main.activity_form.*
 import kotlinx.android.synthetic.main.toolbar.*
 
 class FormActivity : BaseActivity(), Injectable {
 
     private lateinit var formViewModel: FormViewModel
+    private val adapter = RequirementsAdapter()
     override fun layoutId() = R.layout.activity_form
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +46,9 @@ class FormActivity : BaseActivity(), Injectable {
 
     private fun initUI() {
         initToolbar()
+
+        requirementsListView.adapter = adapter
+        ViewCompat.setNestedScrollingEnabled(requirementsListView, false)
 
         addButton.setOnClickListener {
             val newHouse = House(
@@ -63,12 +71,29 @@ class FormActivity : BaseActivity(), Injectable {
 
     private fun handleScreenState(screenState: FormScreenState?) {
         screenState ?: return
+        when (screenState.loadingState) {
+            LoadingState.Ready -> renderReadyState(screenState)
+            LoadingState.Loading -> renderLoadingState()
+            LoadingState.Error -> renderErrorState()
+        }
+    }
 
+    private fun renderReadyState(screenState: FormScreenState) {
         if (screenState.created) {
             val returnIntent = Intent()
             setResult(Activity.RESULT_OK, returnIntent)
             finish()
+        } else {
+            adapter.requirements = screenState.requirements
         }
+    }
+
+    private fun renderLoadingState() {
+        toast("Loading")
+    }
+
+    private fun renderErrorState() {
+        toast("Error", Toast.LENGTH_LONG)
     }
 
     companion object Navigator {

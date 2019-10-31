@@ -19,14 +19,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mrebollob.chaoticplayground.domain.entity.House
+import com.mrebollob.chaoticplayground.domain.entity.Requirement
 import com.mrebollob.chaoticplayground.domain.exception.PlayGroundException
+import com.mrebollob.chaoticplayground.domain.repository.ChaoticRepository
 import com.mrebollob.chaoticplayground.domain.repository.HouseRepository
 import com.mrebollob.chaoticplayground.presentation.platform.LoadingState
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class FormViewModel @Inject constructor(
-    private val repository: HouseRepository
+    private val houseRepository: HouseRepository,
+    private val chaoticRepository: ChaoticRepository
 ) : ViewModel() {
 
     private val _screenState = MutableLiveData<FormScreenState>()
@@ -35,12 +38,27 @@ class FormViewModel @Inject constructor(
 
     init {
         _screenState.value = FormScreenState()
+        loadRequirements()
+    }
+
+    private fun loadRequirements() {
+        viewModelScope.launch {
+            chaoticRepository.getRequirements().either(::handleError, ::handleRequirements)
+        }
     }
 
     fun addHouse(house: House) {
+        _screenState.value = _screenState.value?.copy(createHouseState = LoadingState.Loading)
         viewModelScope.launch {
-            repository.addHouse(house).either(::handleError, ::handleResult)
+            houseRepository.addHouse(house).either(::handleError, ::handleResult)
         }
+    }
+
+    private fun handleRequirements(requirements: List<Requirement>) {
+        _screenState.value = _screenState.value?.copy(
+            requirements = requirements,
+            requirementsState = LoadingState.Ready
+        )
     }
 
     private fun handleResult(result: Unit) {

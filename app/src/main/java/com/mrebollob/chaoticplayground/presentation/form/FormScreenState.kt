@@ -14,9 +14,19 @@
  */
 package com.mrebollob.chaoticplayground.presentation.form
 
+import com.mrebollob.chaoticplayground.domain.entity.Requirement
 import com.mrebollob.chaoticplayground.presentation.platform.LoadingState
+import com.mrebollob.chaoticplayground.presentation.platform.getCombinedLoadingState
 
 data class FormScreenState(
+    val requirements: List<Requirement> = emptyList(),
     val created: Boolean = false,
-    val createHouseState: LoadingState = LoadingState.Loading
-)
+    private val requirementsState: LoadingState = LoadingState.Loading,
+    private val createHouseState: LoadingState = LoadingState.Ready
+) {
+    val loadingState: LoadingState
+        get() = listOf(
+            requirementsState,
+            createHouseState
+        ).getCombinedLoadingState()
+}

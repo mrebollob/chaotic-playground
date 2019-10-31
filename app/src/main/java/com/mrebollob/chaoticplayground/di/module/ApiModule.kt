@@ -17,19 +17,14 @@ package com.mrebollob.chaoticplayground.di.module
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mrebollob.chaoticplayground.BuildConfig
+import com.mrebollob.chaoticplayground.data.ChaoticRepositoryImp
+import com.mrebollob.chaoticplayground.data.ChaoticService
 import com.mrebollob.chaoticplayground.data.FirestoreRepository
-import com.mrebollob.chaoticplayground.data.MarvelRepositoryImp
-import com.mrebollob.chaoticplayground.data.MarvelService
 import com.mrebollob.chaoticplayground.data.WebScraperImp
-import com.mrebollob.chaoticplayground.data.auth.AuthInterceptor
 import com.mrebollob.chaoticplayground.data.auth.SessionManager
-import com.mrebollob.chaoticplayground.data.auth.TimeProvider
 import com.mrebollob.chaoticplayground.di.annotation.BaseUrl
-import com.mrebollob.chaoticplayground.di.annotation.MarvelPrivateKey
-import com.mrebollob.chaoticplayground.di.annotation.MarvelPublicKey
-import com.mrebollob.chaoticplayground.domain.repository.HouseGateway
+import com.mrebollob.chaoticplayground.domain.repository.ChaoticRepository
 import com.mrebollob.chaoticplayground.domain.repository.HouseRepository
-import com.mrebollob.chaoticplayground.domain.repository.MarvelRepository
 import com.mrebollob.chaoticplayground.domain.repository.WebScraper
 import dagger.Module
 import dagger.Provides
@@ -45,15 +40,9 @@ class ApiModule {
 
     @Provides
     @Singleton
-    fun provideHouseRepository(
-        houseGateway: HouseGateway, webScraper: WebScraper
-    ): HouseRepository = HouseRepository(houseGateway, webScraper)
-
-    @Provides
-    @Singleton
     fun provideHouseGateway(
         sessionManager: SessionManager, db: FirebaseFirestore
-    ): HouseGateway = FirestoreRepository(sessionManager, db)
+    ): HouseRepository = FirestoreRepository(sessionManager, db)
 
     @Provides
     @Singleton
@@ -61,32 +50,30 @@ class ApiModule {
 
     @Provides
     @Singleton
-    fun provideMarvelRepository(marvelService: MarvelService): MarvelRepository =
-        MarvelRepositoryImp(marvelService)
+    fun provideChaoticRepository(chaoticService: ChaoticService): ChaoticRepository =
+        ChaoticRepositoryImp(chaoticService)
 
     @Provides
     @Singleton
-    fun provideMarvelService(
+    fun provideChaoticService(
         okHttpClient: OkHttpClient,
         @BaseUrl baseUrl: String
-    ): MarvelService =
+    ): ChaoticService =
         Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
-            .build().create(MarvelService::class.java)
+            .build().create(ChaoticService::class.java)
 
     @Provides
     @Singleton
     fun provideOkHttpClient(
-        httpLoggingInterceptor: HttpLoggingInterceptor,
-        authInterceptor: AuthInterceptor
+        httpLoggingInterceptor: HttpLoggingInterceptor
     ): OkHttpClient {
 
         return OkHttpClient.Builder().apply {
             connectTimeout(30, TimeUnit.SECONDS)
             readTimeout(30, TimeUnit.SECONDS)
-            addInterceptor(authInterceptor)
             if (BuildConfig.DEBUG) addInterceptor(httpLoggingInterceptor)
         }.build()
     }
@@ -101,28 +88,6 @@ class ApiModule {
     }
 
     @Provides
-    @Singleton
-    fun provideAuthInterceptor(
-        @MarvelPublicKey marvelPublicKey: String,
-        @MarvelPrivateKey marvelPrivateKey: String,
-        timeProvider: TimeProvider
-    ): AuthInterceptor {
-        return AuthInterceptor(
-            marvelPublicKey,
-            marvelPrivateKey,
-            timeProvider
-        )
-    }
-
-    @Provides
     @BaseUrl
     fun provideBaseUrl(): String = BuildConfig.BASE_URL
-
-    @Provides
-    @MarvelPublicKey
-    fun provideMarvelPublicKey(): String = BuildConfig.MARVEL_PUBLIC_KEY
-
-    @Provides
-    @MarvelPrivateKey
-    fun provideMarvelPrivateKey(): String = BuildConfig.MARVEL_PRIVATE_KEY
 }

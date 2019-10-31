@@ -19,9 +19,6 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 def STRING = "String"
-def apikeyPropertiesFile = rootProject.file("apikey.properties")
-def apikeyProperties = new Properties()
-apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
 
 android {
     compileSdkVersion 29
@@ -34,9 +31,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField(STRING, "BASE_URL", "\"https://gateway.marvel.com\"")
-        buildConfigField(STRING, "MARVEL_PUBLIC_KEY", "\"${apikeyProperties['MARVEL_PUBLIC_KEY']}\"")
-        buildConfigField(STRING, "MARVEL_PRIVATE_KEY", "\"${apikeyProperties['MARVEL_PRIVATE_KEY']}\"")
+        buildConfigField(STRING, "BASE_URL", "\"https://private-4a290-manuelrb.apiary-mock.com\"")
     }
     buildTypes {
 

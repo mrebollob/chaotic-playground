@@ -16,32 +16,22 @@
 package com.mrebollob.chaoticplayground.data
 
 import com.google.gson.Gson
-import com.mrebollob.chaoticplayground.data.model.MarvelApiError
-import com.mrebollob.chaoticplayground.domain.entity.MarvelComic
+import com.mrebollob.chaoticplayground.data.model.ChaoticApiError
+import com.mrebollob.chaoticplayground.domain.entity.Requirement
 import com.mrebollob.chaoticplayground.domain.exception.PlayGroundException
 import com.mrebollob.chaoticplayground.domain.functional.Either
-import com.mrebollob.chaoticplayground.domain.repository.MarvelRepository
+import com.mrebollob.chaoticplayground.domain.repository.ChaoticRepository
 import retrofit2.HttpException
 import retrofit2.Response
 import timber.log.Timber
 import java.io.IOException
 
-class MarvelRepositoryImp(private val marvelService: MarvelService) :
-    MarvelRepository {
+class ChaoticRepositoryImp(private val chaoticService: ChaoticService) :
+    ChaoticRepository {
 
-    override suspend fun getComics(): Either<PlayGroundException, List<MarvelComic>> {
+    override suspend fun getRequirements(): Either<PlayGroundException, List<Requirement>> {
         return try {
-
-            val query = mapOf(
-                Pair("limit", "50"),
-                Pair("format", "Trade Paperback")
-            )
-            val comics = marvelService.getComics(query)
-            if (comics.response != null) {
-                Either.Right(comics.response.results.map { it.toMarvelComic() })
-            } else {
-                Either.Left(PlayGroundException("empty"))
-            }
+            Either.Right(chaoticService.getRequirements().map { it.toRequirement() })
         } catch (httpException: HttpException) {
             Either.Left(parseError(httpException.response()))
         } catch (e: IOException) {
@@ -55,7 +45,7 @@ class MarvelRepositoryImp(private val marvelService: MarvelService) :
             val errorBody = response?.errorBody()?.string() ?: "{}"
 
             val marvelError =
-                gson.fromJson<MarvelApiError>(errorBody, MarvelApiError::class.java)
+                gson.fromJson<ChaoticApiError>(errorBody, ChaoticApiError::class.java)
 
             PlayGroundException(marvelError.code ?: "Null error code", null)
         } catch (e: IOException) {

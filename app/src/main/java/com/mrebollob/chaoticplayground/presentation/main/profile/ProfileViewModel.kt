@@ -59,10 +59,4 @@ class ProfileViewModel @Inject constructor(
             sessionManager.getUser().either(::handleError, ::handleComics)
         }
     }
-
-    fun addHouse() {
-        viewModelScope.launch {
-            repository.addHouse("https://www.idealista.com/32014895")
-        }
-    }
 }

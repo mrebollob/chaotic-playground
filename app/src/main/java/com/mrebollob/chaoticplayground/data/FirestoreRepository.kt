@@ -23,7 +23,7 @@ import com.mrebollob.chaoticplayground.domain.entity.House
 import com.mrebollob.chaoticplayground.domain.exception.PlayGroundException
 import com.mrebollob.chaoticplayground.domain.functional.Either
 import com.mrebollob.chaoticplayground.domain.functional.flatMap
-import com.mrebollob.chaoticplayground.domain.repository.HouseGateway
+import com.mrebollob.chaoticplayground.domain.repository.HouseRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
@@ -37,7 +37,7 @@ internal const val USER_ID_FIELD = "userId"
 class FirestoreRepository(
     private val sessionManager: SessionManager,
     private val db: FirebaseFirestore
-) : HouseGateway {
+) : HouseRepository {
 
     override suspend fun addHouse(house: House): Either<PlayGroundException, Unit> {
         return withContext(Dispatchers.IO) {

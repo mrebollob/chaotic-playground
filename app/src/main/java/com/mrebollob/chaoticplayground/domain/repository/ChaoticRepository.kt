@@ -13,12 +13,12 @@
  *   limitations under the License.
  */
 
-package com.mrebollob.chaoticplayground.data.auth
+package com.mrebollob.chaoticplayground.domain.repository
 
-// Source code from: https://github.com/Karumi/MarvelApiClientAndroid
+import com.mrebollob.chaoticplayground.domain.entity.Requirement
+import com.mrebollob.chaoticplayground.domain.exception.PlayGroundException
+import com.mrebollob.chaoticplayground.domain.functional.Either
 
-class TimeProvider {
-    fun getCurrentTimeMillis(): Long {
-        return System.currentTimeMillis()
-    }
+interface ChaoticRepository {
+    suspend fun getRequirements(): Either<PlayGroundException, List<Requirement>>
 }

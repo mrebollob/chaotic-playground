@@ -21,9 +21,10 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/comicsListView"
+        android:id="@+id/housesListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="1"
         tools:listitem="@layout/house_list_item" />
 </androidx.constraintlayout.widget.ConstraintLayout>

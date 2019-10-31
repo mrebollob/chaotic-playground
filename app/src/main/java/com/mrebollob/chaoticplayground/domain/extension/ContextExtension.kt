@@ -19,7 +19,8 @@ import android.content.Context
 import android.widget.Toast
 import java.util.*
 
-fun Context.toast(text: String) = Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+fun Context.toast(text: String, duration: Int = Toast.LENGTH_SHORT) =
+    Toast.makeText(this, text, duration).show()
 
 fun generateId(): String =
     "HOUSE_" + UUID.randomUUID().toString().replace("-".toRegex(), "")

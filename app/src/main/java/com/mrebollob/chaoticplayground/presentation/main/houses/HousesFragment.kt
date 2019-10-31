@@ -16,13 +16,14 @@ package com.mrebollob.chaoticplayground.presentation.main.houses
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import com.mrebollob.chaoticplayground.R
 import com.mrebollob.chaoticplayground.domain.extension.observe
 import com.mrebollob.chaoticplayground.domain.extension.toast
 import com.mrebollob.chaoticplayground.domain.extension.viewModel
 import com.mrebollob.chaoticplayground.presentation.platform.BaseFragment
 import com.mrebollob.chaoticplayground.presentation.platform.LoadingState
-import kotlinx.android.synthetic.main.content_main.*
+import kotlinx.android.synthetic.main.houses_fragment.*
 
 class HousesFragment : BaseFragment() {
 
@@ -40,7 +41,7 @@ class HousesFragment : BaseFragment() {
 
     private fun initUI() {
         activity?.setTitle(R.string.app_name)
-        comicsListView.adapter = adapter
+        housesListView.adapter = adapter
     }
 
     private fun handleScreenState(screenState: HousesScreenState?) {
@@ -61,7 +62,7 @@ class HousesFragment : BaseFragment() {
     }
 
     private fun renderErrorState() {
-        context?.toast("Error")
+        context?.toast("Error", Toast.LENGTH_LONG)
     }
 
     companion object {

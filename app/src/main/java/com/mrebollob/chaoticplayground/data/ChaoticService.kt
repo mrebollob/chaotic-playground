@@ -13,12 +13,12 @@
  *   limitations under the License.
  */
 
-package com.mrebollob.chaoticplayground.data.model
+package com.mrebollob.chaoticplayground.data
 
-import com.google.gson.annotations.SerializedName
+import com.mrebollob.chaoticplayground.data.model.RequirementModel
+import retrofit2.http.GET
 
-data class MarvelResponse<T>(
-    @SerializedName("code") val code: Int?,
-    @SerializedName("status") val status: String?,
-    @SerializedName("data") val response: T?
-)
+interface ChaoticService {
+    @GET("/requirements")
+    suspend fun getRequirements(): List<RequirementModel>
+}

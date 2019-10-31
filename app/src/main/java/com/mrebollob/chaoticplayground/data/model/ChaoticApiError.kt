@@ -13,10 +13,12 @@
  *   limitations under the License.
  */
 
-package com.mrebollob.chaoticplayground.di.annotation
+package com.mrebollob.chaoticplayground.data.model
 
-import javax.inject.Qualifier
+import com.google.gson.annotations.SerializedName
 
-@Qualifier
-@Retention(AnnotationRetention.RUNTIME)
-annotation class MarvelPrivateKey
+data class ChaoticApiError(
+    @SerializedName("code") val code: String?,
+    @SerializedName("message") val message: String?,
+    @SerializedName("status") val status: String?
+)

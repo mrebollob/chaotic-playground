@@ -3,15 +3,17 @@ package com.mrebollob.chaoticplayground.data.model
 import com.mrebollob.chaoticplayground.domain.entity.Requirement
 
 data class RequirementModel(
-    val id: String? = null,
-    val title: String? = null,
-    val checked: Boolean? = null
+    val id: String,
+    val title: String,
+    val description: String,
+    val value: Int
 ) {
     fun toRequirement(): Requirement {
         return Requirement(
-            id = id ?: "",
-            title = title ?: "",
-            checked = checked ?: false
+            id = id,
+            title = title,
+            description = description,
+            value = value
         )
     }
 }
@@ -20,5 +22,6 @@ fun Requirement.toRequirementModel() =
     RequirementModel(
         id = id,
         title = title,
-        checked = checked
+        description = description,
+        value = value
     )

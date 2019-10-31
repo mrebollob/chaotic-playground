@@ -18,7 +18,6 @@ package com.mrebollob.chaoticplayground.di.module
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
-import com.mrebollob.chaoticplayground.data.auth.TimeProvider
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -29,11 +28,6 @@ class AppModule {
     @Provides
     @Singleton
     fun provideGson(): Gson = Gson()
-
-    @Provides
-    @Singleton
-    fun provideTimeProvider(): TimeProvider =
-        TimeProvider()
 
     @Provides
     @Singleton

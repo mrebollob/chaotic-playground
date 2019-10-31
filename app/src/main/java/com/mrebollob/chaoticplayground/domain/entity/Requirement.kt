@@ -1,9 +1,8 @@
 package com.mrebollob.chaoticplayground.domain.entity
 
-import com.mrebollob.chaoticplayground.domain.extension.generateId
-
 data class Requirement(
-    val id: String = generateId(),
+    val id: String,
     val title: String,
-    val checked: Boolean = false
+    val description: String,
+    val value: Int
 )
