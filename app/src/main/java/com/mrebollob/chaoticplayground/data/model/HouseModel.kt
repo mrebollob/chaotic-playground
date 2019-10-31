@@ -5,6 +5,9 @@ import com.mrebollob.chaoticplayground.data.USER_ID_FIELD
 import com.mrebollob.chaoticplayground.domain.entity.House
 import java.util.*
 
+private const val TEST_IMG =
+    "https://specials-images.forbesimg.com/imageserve/1026205392/960x0.jpg?fit=scale"
+
 data class HouseModel(
     val id: String? = null,
     @SerializedName(USER_ID_FIELD)
@@ -19,7 +22,7 @@ data class HouseModel(
         return House(
             id = id ?: "",
             title = title ?: "",
-            imageUrl = imageUrl ?: "",
+            imageUrl = imageUrl ?: TEST_IMG,
             rentPrice = rentPrice ?: 0.toFloat(),
             requirements = requirements?.map { it.toRequirement() } ?: emptyList(),
             updated = updated ?: Date()

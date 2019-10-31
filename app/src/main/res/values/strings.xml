@@ -23,4 +23,9 @@
     <string name="title_home">Home</string>
     <string name="title_new">New</string>
     <string name="title_profile">Profile</string>
+
+    <!--  From screen  -->
+    <string name="form_screen_form_title">Title</string>
+    <string name="form_screen_form_price">Price</string>
+    <string name="form_screen_form_save_button">Save house</string>
 </resources>

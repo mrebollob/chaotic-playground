@@ -43,11 +43,10 @@ class FormActivity : BaseActivity(), Injectable {
         initToolbar()
 
         addButton.setOnClickListener {
-
             val newHouse = House(
-                title = nameEditText.text.toString(),
+                title = titleEditText.text.toString(),
                 imageUrl = "",
-                rentPrice = 0.toFloat(),
+                rentPrice = priceEditText.text.toString().toFloat(),
                 requirements = emptyList()
             )
 

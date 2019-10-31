@@ -33,10 +33,12 @@ class HousesViewModel @Inject constructor(
     val screenState: LiveData<HousesScreenState>
         get() = _screenState
 
-
     init {
         _screenState.value = HousesScreenState()
+        refreshHouses()
+    }
 
+    private fun refreshHouses() {
         viewModelScope.launch {
             repository.getHouses().either(::handleError, ::handleHouses)
         }

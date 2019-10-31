@@ -34,18 +34,30 @@
             android:layout_height="wrap_content">
 
             <EditText
-                android:id="@+id/nameEditText"
+                android:id="@+id/titleEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Hola" />
+                android:hint="@string/form_screen_form_title"
+                android:inputType="textCapSentences" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/priceEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/form_screen_form_price"
+                android:inputType="numberDecimal" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/addButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/spacing_normal"
-            android:text="Add" />
+            android:text="@string/form_screen_form_save_button" />
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

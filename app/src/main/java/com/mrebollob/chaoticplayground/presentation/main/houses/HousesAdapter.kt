@@ -14,11 +14,14 @@
  */
 package com.mrebollob.chaoticplayground.presentation.main.houses
 
+import android.graphics.drawable.ColorDrawable
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import coil.api.load
 import com.mrebollob.chaoticplayground.R
 import com.mrebollob.chaoticplayground.domain.entity.House
 import com.mrebollob.chaoticplayground.domain.extension.inflate
@@ -48,17 +51,19 @@ class HousesAdapter : RecyclerView.Adapter<HouseViewHolder>() {
 
 class HouseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
+    private val titleTextView by lazy { itemView.findViewById(R.id.titleTextView) as TextView }
     private val priceTextView by lazy { itemView.findViewById(R.id.priceTextView) as TextView }
-    private val thumbnailImageView by lazy { itemView.findViewById(R.id.thumbnailImageView) as ImageView }
+    private val houseImageView by lazy { itemView.findViewById(R.id.houseImageView) as ImageView }
 
     fun render(house: House) {
 
+        titleTextView.text = house.title
         priceTextView.text =
             itemView.context.getString(R.string.comic_price_format, house.rentPrice)
 
-//        thumbnailImageView.load(comic.thumbnail) {
-//            crossfade(true)
-//            placeholder(ColorDrawable(ContextCompat.getColor(itemView.context, R.color.black_20a)))
-//        }
+        houseImageView.load(house.imageUrl) {
+            crossfade(true)
+            placeholder(ColorDrawable(ContextCompat.getColor(itemView.context, R.color.black_20a)))
+        }
     }
 }

@@ -29,8 +29,8 @@
     <dimen name="spacing_tiny">4dp</dimen>
 
     <!-- typical sizes of views -->
-    <dimen name="cardview_elevation">8dp</dimen>
-    <dimen name="cardview_radius">8dp</dimen>
+    <dimen name="cardview_elevation">4dp</dimen>
+    <dimen name="cardview_radius">4dp</dimen>
     <dimen name="button_height_tall">60dp</dimen>
     <dimen name="button_height_normal">40dp</dimen>
     <dimen name="button_height_short">32dp</dimen>
